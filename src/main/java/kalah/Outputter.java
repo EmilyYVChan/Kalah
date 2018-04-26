@@ -10,7 +10,36 @@ public class Outputter {
         this.io = io;
     }
 
-    public void showCurrentBoardState(int[] numSeedsInPlayerOnePits, int[] numSeedsInPlayerTwoPits) {
+    public void showFinalScoreAndWinner(BoardState finalBoardState) {
+        int[] numSeedsInPlayerOnePits = finalBoardState.playerOnePits;
+        int[] numSeedsInPlayerTwoPits = finalBoardState.playerTwoPits;
+
+        int scorePlayerOne = calculatePlayerScore(numSeedsInPlayerOnePits);
+        int scorePlayerTwo = calculatePlayerScore(numSeedsInPlayerTwoPits);
+
+        io.println("\tplayer 1:" + scorePlayerOne);
+        io.println("\tplayer 2:" + scorePlayerTwo);
+
+        String winnerString = "";
+        if (scorePlayerOne > scorePlayerTwo) {
+            winnerString = "Player 1 wins!";
+        } else if (scorePlayerOne < scorePlayerTwo) {
+            winnerString = "Player 2 wins!";
+        } else {
+            winnerString = "A tie!";
+        }
+
+        io.println(winnerString);
+    }
+
+    public void showGameOver(BoardState finalBoardState) {
+        io.println("Game over");
+        showCurrentBoardState(finalBoardState);
+    }
+
+    public void showCurrentBoardState(BoardState currentBoardState) {
+        int[] numSeedsInPlayerOnePits = currentBoardState.playerOnePits;
+        int[] numSeedsInPlayerTwoPits = currentBoardState.playerTwoPits;
 
 		io.println("+----+-------+-------+-------+-------+-------+-------+----+");
 
@@ -53,5 +82,13 @@ public class Outputter {
 
     private String addPrefixBlankSpaceIfSingleDigit(int digit) {
         return (digit < 9 ? (" " + digit) : Integer.toString(digit));
+    }
+
+    private int calculatePlayerScore(int[] numSeedsInPlayerPits) {
+        int sum = 0;
+        for (int seeds : numSeedsInPlayerPits) {
+            sum += seeds;
+        }
+        return sum;
     }
 }
