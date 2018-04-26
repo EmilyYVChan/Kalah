@@ -82,7 +82,7 @@ public class Board {
         return new BoardState(primitivePlayerOnePits, primitivePlayerTwoPits);
     }
 
-    protected void sow(PlayerMove playerMove) {
+    public void sow(PlayerMove playerMove) {
         List<Pit> playerPits = selectPlayerPits(playerMove.player);
 
         Pit houseSelectedByPlayer = playerPits.get(playerMove.selectedHouse - 1);
@@ -93,13 +93,23 @@ public class Board {
         Pit currentPitToSowSeed = houseSelectedByPlayer.getNextPit();
 
         while (seedsToSow > 0) {
+            if (!isPitBelongedToCurrentActivePlayer(currentPitToSowSeed, playerMove.player)
+                    && currentPitToSowSeed.getPitType() == Pit.PitType.STORE) {
+                currentPitToSowSeed = currentPitToSowSeed.getNextPit();
+                continue;
+            }
             currentPitToSowSeed.incrementSeeds();
             seedsToSow--;
             currentPitToSowSeed = currentPitToSowSeed.getNextPit();
         }
     }
 
-    protected void capture(PlayerMove playerMove) {
+    private boolean isPitBelongedToCurrentActivePlayer(Pit pit, Player player) {
+        List<Pit> playerPits = selectPlayerPits(player);
+        return playerPits.contains(pit);
+    }
+
+    public void capture(PlayerMove playerMove) {
         List<Pit> captorPits = selectPlayerPits(playerMove.player);
         List<Pit> captivePits = (captorPits == playerOnePits) ? playerTwoPits : playerOnePits;
 

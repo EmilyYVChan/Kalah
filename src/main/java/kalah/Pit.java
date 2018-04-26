@@ -39,4 +39,8 @@ public class Pit {
     protected void incrementSeeds() {
         this.seeds++;
     }
+
+    protected PitType getPitType() {
+        return this.pitType;
+    }
 }
