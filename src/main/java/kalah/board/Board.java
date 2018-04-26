@@ -10,8 +10,8 @@ public class Board {
 
     private final int zeroBasedPositionOfStoreInPlayerPits;
 
-    List<Pit> playerOnePits;
-    List<Pit> playerTwoPits;
+    private List<Pit> playerOnePits;
+    private List<Pit> playerTwoPits;
 
     public Board (int numHousesPerPlayer, int numSeedsPerHouseInitial) {
         this.numHousesPerPlayer = numHousesPerPlayer;
@@ -115,7 +115,7 @@ public class Board {
 
         Pit captorStore = captorPits.get(zeroBasedPositionOfStoreInPlayerPits);
         Pit captorHouse = captorPits.get(playerMove.selectedHouse - 1);
-        Pit capturedHouse = captivePits.get(playerMove.selectedHouse - 1);
+        Pit capturedHouse = captivePits.get(numHousesPerPlayer - playerMove.selectedHouse);
 
         captorStore.addSeeds(captorHouse.getSeeds() + capturedHouse.getSeeds());
 
