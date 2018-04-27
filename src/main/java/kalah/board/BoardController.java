@@ -1,9 +1,6 @@
 package kalah.board;
 
 import kalah.GameState;
-import kalah.board.Board;
-import kalah.board.BoardState;
-import kalah.board.Pit;
 import kalah.player.Player;
 import kalah.player.PlayerMove;
 
@@ -18,25 +15,17 @@ public class BoardController {
     public GameState processValidPlayerMove(PlayerMove playerMove) {
         Player currentPlayer = playerMove.player;
         Player opponentPlayer = playerMove.player.determineOpponentPlayer();
-        BoardState preMoveBoardState = board.getCurrentBoardState();
 
         Pit pitOfLastSownSeed = board.sow(playerMove);
-
-        if (pitOfLastSownSeed.getOwnerPlayer() == opponentPlayer) {
-            return choosePlayerTurn(opponentPlayer);
-        }
 
         if (isLastSeedInPlayerStore(pitOfLastSownSeed, currentPlayer)) {
             return choosePlayerTurn(currentPlayer);
         } else if (isPlayerHouseEmptyBeforeLastSeedWasPlaced(pitOfLastSownSeed, currentPlayer)
                 && !isOppositeHouseCurrentlyEmpty(pitOfLastSownSeed)) {
             this.playCaptureMove(pitOfLastSownSeed);
-            return choosePlayerTurn(opponentPlayer);
         }
 
-//        if (isGameFinished()) {
-            return GameState.FINISHED;
-//        }
+        return choosePlayerTurn(opponentPlayer);
     }
 
     public boolean isPlayerMoveValidOnBoard(PlayerMove playerMove) {
@@ -86,25 +75,10 @@ public class BoardController {
         return (player == Player.PLAYER_ONE ? GameState.PLAYER_ONE_TURN : GameState.PLAYER_TWO_TURN);
     }
 
-    private int getSeedsAtSelectedHouse(BoardState boardState, PlayerMove playerMove) {
-        int[] playerPits = choosePlayerPits(boardState, playerMove.player);
-        return playerPits[playerMove.selectedHouse - 1];
-    }
+    public boolean isPlayerHousesAllEmpty(Player player) {
+        BoardState currentBoardState = board.getCurrentBoardState();
+        int[] playerPits = choosePlayerPits(currentBoardState, player);
 
-    private boolean isGameFinished() {
-        BoardState boardState = board.getCurrentBoardState();
-
-        int[] playerOnePits = boardState.playerOnePits;
-        int[] playerTwoPits = boardState.playerTwoPits;
-
-        if (isPlayerHousesAllEmpty(playerOnePits) || isPlayerHousesAllEmpty(playerTwoPits)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean isPlayerHousesAllEmpty(int[] playerPits) {
         for (int seeds : playerPits) {
             if (seeds > 0) {
                 return false;
@@ -112,7 +86,4 @@ public class BoardController {
         }
         return true;
     }
-
-
-
 }

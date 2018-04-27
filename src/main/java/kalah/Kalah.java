@@ -35,7 +35,6 @@ public class Kalah {
 
 	        if (playerInput == -1) {
 	            currentGameState = GameState.QUIT;
-	            outputter.showGameOver(board.getCurrentBoardState());
 	            break;
             }
 
@@ -48,15 +47,30 @@ public class Kalah {
             }
 
             GameState nextGameState = boardController.processValidPlayerMove(playerMove);
-            currentGameState = nextGameState;
+            Player nextPlayer = determineCurrentPlayer(nextGameState);
 
-            if (currentGameState == GameState.FINISHED) {
+            if (isGameFinished(nextPlayer)) {
+                currentGameState = GameState.FINISHED;
+                break;
+            } else {
+                currentGameState = nextGameState;
+            }
+        }
+
+        switch(currentGameState) {
+            case QUIT:
+                outputter.showGameOver(board.getCurrentBoardState());
+                break;
+            case FINISHED:
                 outputter.showGameOver(board.getCurrentBoardState());
                 outputter.showFinalScoreAndWinner(board.getCurrentBoardState());
                 break;
-            }
         }
 	}
+
+    private boolean isGameFinished(Player nextPlayer) {
+        return boardController.isPlayerHousesAllEmpty(nextPlayer);
+    }
 
     private Player determineCurrentPlayer(GameState currentGameState) {
         return (currentGameState == GameState.PLAYER_ONE_TURN ? Player.PLAYER_ONE : Player.PLAYER_TWO);
