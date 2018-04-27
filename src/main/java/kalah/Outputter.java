@@ -86,7 +86,7 @@ public class Outputter {
     }
 
     private String addPrefixBlankSpaceIfSingleDigit(int digit) {
-        return (digit < 9 ? (" " + digit) : Integer.toString(digit));
+        return (digit < 10 ? (" " + digit) : Integer.toString(digit));
     }
 
     private int calculatePlayerScore(int[] numSeedsInPlayerPits) {
