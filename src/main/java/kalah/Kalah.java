@@ -3,6 +3,7 @@ package kalah;
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
 import kalah.board.Board;
+import kalah.board.BoardController;
 import kalah.player.Player;
 import kalah.player.PlayerMove;
 
@@ -18,7 +19,7 @@ public class Kalah {
     private GameState currentGameState;
     private Board board;
     private Outputter outputter;
-    private GameMechanicsController gameMechanicsController;
+    private BoardController boardController;
 
 	public static void main(String[] args) {
 		new Kalah().play(new MockIO());
@@ -41,7 +42,12 @@ public class Kalah {
             Player currentPlayer = determineCurrentPlayer(currentGameState);
             PlayerMove playerMove = new PlayerMove(currentPlayer, playerInput);
 
-            GameState nextGameState = gameMechanicsController.processPlayerMove(playerMove);
+            if (!boardController.isPlayerMoveValidOnBoard(playerMove)) {
+                outputter.showErrorPlayerSelectedEmptyHouse();
+                continue;
+            }
+
+            GameState nextGameState = boardController.processValidPlayerMove(playerMove);
             currentGameState = nextGameState;
 
             if (currentGameState == GameState.FINISHED) {
@@ -80,6 +86,6 @@ public class Kalah {
         currentGameState = GameState.PLAYER_ONE_TURN;
         board = new Board(NUM_HOUSES_PER_PLAYER, NUM_SEEDS_PER_HOUSE_INITIAL);
         outputter = new Outputter(io);
-        gameMechanicsController = new GameMechanicsController(board);
+        boardController = new BoardController(board);
     }
 }

@@ -11,6 +11,10 @@ public class Outputter {
         this.io = io;
     }
 
+    public void showErrorPlayerSelectedEmptyHouse() {
+        io.println("House is empty. Move again.");
+    }
+
     public void showFinalScoreAndWinner(BoardState finalBoardState) {
         int[] numSeedsInPlayerOnePits = finalBoardState.playerOnePits;
         int[] numSeedsInPlayerTwoPits = finalBoardState.playerTwoPits;

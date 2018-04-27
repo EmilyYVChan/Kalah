@@ -1,5 +1,7 @@
 package kalah.board;
 
+import kalah.player.Player;
+
 public class Pit {
 
     public enum PitType {
@@ -8,11 +10,15 @@ public class Pit {
 
     private int seeds;
     private PitType pitType;
+    private Player ownerPlayer;
+    private int zeroBasedPitPositionInOwnerPits;
     private Pit nextPit;
 
-    public Pit(int initialSeeds, PitType pitType) {
+    public Pit(int initialSeeds, PitType pitType, Player ownerPlayer, int zeroBasedPitPositionInOwnerPits) {
         this.seeds = initialSeeds;
         this.pitType = pitType;
+        this.ownerPlayer = ownerPlayer;
+        this.zeroBasedPitPositionInOwnerPits = zeroBasedPitPositionInOwnerPits;
         this.nextPit = null;
     }
 
@@ -42,5 +48,13 @@ public class Pit {
 
     protected PitType getPitType() {
         return this.pitType;
+    }
+
+    protected Player getOwnerPlayer() {
+        return this.ownerPlayer;
+    }
+
+    protected int getZeroBasedPitPositionInOwnerPits() {
+        return this.zeroBasedPitPositionInOwnerPits;
     }
 }

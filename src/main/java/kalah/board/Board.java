@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Board {
 
-    private final int numHousesPerPlayer;
-    private final int numSeedsPerHouseInitial;
+    protected final int numHousesPerPlayer;
+    protected final int numSeedsPerHouseInitial;
 
     private final int zeroBasedPositionOfStoreInPlayerPits;
 
@@ -35,14 +35,14 @@ public class Board {
 
     private void addHousesToPlayerPits() {
         for (int i = 0; i < numHousesPerPlayer; i++) {
-            playerOnePits.add(new Pit(numSeedsPerHouseInitial, Pit.PitType.HOUSE));
-            playerTwoPits.add(new Pit(numSeedsPerHouseInitial, Pit.PitType.HOUSE));
+            playerOnePits.add(new Pit(numSeedsPerHouseInitial, Pit.PitType.HOUSE, Player.PLAYER_ONE, i));
+            playerTwoPits.add(new Pit(numSeedsPerHouseInitial, Pit.PitType.HOUSE, Player.PLAYER_TWO, i));
         }
     }
 
     private void addStoresToPlayerPits() {
-        playerOnePits.add(new Pit(0, Pit.PitType.STORE));
-        playerTwoPits.add(new Pit(0, Pit.PitType.STORE));
+        playerOnePits.add(new Pit(0, Pit.PitType.STORE, Player.PLAYER_ONE, zeroBasedPositionOfStoreInPlayerPits));
+        playerTwoPits.add(new Pit(0, Pit.PitType.STORE, Player.PLAYER_TWO, zeroBasedPositionOfStoreInPlayerPits));
     }
 
     private void arrangePitsAsCircularLinkedList() {
@@ -85,18 +85,19 @@ public class Board {
         return new BoardState(primitivePlayerOnePits, primitivePlayerTwoPits);
     }
 
-    public void sow(PlayerMove playerMove) {
+    protected Pit sow(PlayerMove playerMove) {
         List<Pit> playerPits = selectPlayerPits(playerMove.player);
 
         Pit houseSelectedByPlayer = playerPits.get(playerMove.selectedHouse - 1);
         int seedsToSow = houseSelectedByPlayer.getSeeds();
 
         houseSelectedByPlayer.setSeedsToZero();
-
+        
         Pit currentPitToSowSeed = houseSelectedByPlayer.getNextPit();
+        Pit pitOfLastSownSeed = houseSelectedByPlayer;
 
         while (seedsToSow > 0) {
-            if (!isPitBelongedToCurrentActivePlayer(currentPitToSowSeed, playerMove.player)
+            if (!isPitBelongedToPlayer(currentPitToSowSeed, playerMove.player)
                     && currentPitToSowSeed.getPitType() == Pit.PitType.STORE) {
                 currentPitToSowSeed = currentPitToSowSeed.getNextPit();
                 continue;
@@ -104,12 +105,14 @@ public class Board {
             currentPitToSowSeed.incrementSeeds();
             seedsToSow--;
             currentPitToSowSeed = currentPitToSowSeed.getNextPit();
+            pitOfLastSownSeed = pitOfLastSownSeed.getNextPit();
         }
+        
+        return pitOfLastSownSeed;
     }
 
-    private boolean isPitBelongedToCurrentActivePlayer(Pit pit, Player player) {
-        List<Pit> playerPits = selectPlayerPits(player);
-        return playerPits.contains(pit);
+    private boolean isPitBelongedToPlayer(Pit pit, Player player) {
+        return pit.getOwnerPlayer() == player;
     }
 
     public void capture(PlayerMove playerMove) {
