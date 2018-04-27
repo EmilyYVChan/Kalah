@@ -34,6 +34,7 @@ public class Kalah {
 
 	        if (playerInput == -1) {
 	            currentGameState = GameState.QUIT;
+	            outputter.showGameOver(board.getCurrentBoardState());
 	            break;
             }
 
