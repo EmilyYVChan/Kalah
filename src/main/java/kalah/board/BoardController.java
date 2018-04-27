@@ -40,7 +40,7 @@ public class BoardController {
     }
 
     public boolean isPlayerMoveValidOnBoard(PlayerMove playerMove) {
-        return isHouseSelectedByPlayerEmpty(board.getCurrentBoardState(), playerMove);
+        return !isHouseSelectedByPlayerEmpty(board.getCurrentBoardState(), playerMove);
     }
 
     private boolean isOppositeHouseCurrentlyEmpty(Pit pitOfLastSownSeed) {
