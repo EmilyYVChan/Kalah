@@ -85,7 +85,7 @@ public class Board {
         return new BoardState(primitivePlayerOnePits, primitivePlayerTwoPits);
     }
 
-    protected Pit sow(PlayerMove playerMove) {
+    public Pit sow(PlayerMove playerMove) {
         List<Pit> playerPits = selectPlayerPits(playerMove.player);
 
         Pit houseSelectedByPlayer = playerPits.get(playerMove.selectedHouse - 1);
