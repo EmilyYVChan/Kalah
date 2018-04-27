@@ -29,7 +29,7 @@ public class TestBoard {
         int[] expectedPlayerOnePits = {1,14,14,14,14,14,1};
         int[] expectedPlayerTwoPits = {14,14,14,14,14,14,0};
 
-        PlayerMove playerMove = new PlayerMove(Player.PLAYER_ONE, 1, board.getCurrentBoardState());
+        PlayerMove playerMove = new PlayerMove(Player.PLAYER_ONE, 1);
         board.sow(playerMove);
         BoardState boardState = board.getCurrentBoardState();
 
@@ -45,7 +45,7 @@ public class TestBoard {
         int[] expectedPlayerOnePits = {0,4,4,4,4,4,8};
         int[] expectedPlayerTwoPits = {4,4,4,4,4,0,0};
 
-        PlayerMove playerMove = new PlayerMove(Player.PLAYER_ONE, 1, board.getCurrentBoardState());
+        PlayerMove playerMove = new PlayerMove(Player.PLAYER_ONE, 1);
         board.capture(playerMove);
         BoardState boardState = board.getCurrentBoardState();
 
