@@ -1,4 +1,7 @@
-package kalah;
+package kalah.board;
+
+import kalah.player.Player;
+import kalah.player.PlayerMove;
 
 import java.util.ArrayList;
 import java.util.List;

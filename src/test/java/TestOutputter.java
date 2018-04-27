@@ -1,9 +1,7 @@
 import com.qualitascorpus.testsupport.MockIO;
-import kalah.BoardState;
+import kalah.board.BoardState;
 import kalah.Outputter;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class TestOutputter {
 

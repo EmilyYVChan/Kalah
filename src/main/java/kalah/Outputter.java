@@ -1,6 +1,7 @@
 package kalah;
 
 import com.qualitascorpus.testsupport.IO;
+import kalah.board.BoardState;
 
 public class Outputter {
 
