@@ -62,6 +62,7 @@ public class Kalah {
                 outputter.showGameOver(board.getCurrentBoardState());
                 break;
             case FINISHED:
+                outputter.showCurrentBoardState(board.getCurrentBoardState());
                 outputter.showGameOver(board.getCurrentBoardState());
                 outputter.showFinalScoreAndWinner(board.getCurrentBoardState());
                 break;
