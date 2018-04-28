@@ -26,29 +26,30 @@ public class Kalah {
 	}
 
 	public void play(IO io) {
+
 	    setupFields(io);
 
 	    while (currentGameState == GameState.PLAYER_ONE_TURN || currentGameState == GameState.PLAYER_TWO_TURN) {
 
             outputter.showCurrentBoardState(board.getCurrentBoardState());
+
 	        int playerInput = readInputFromPlayer(io, currentGameState);
 
-	        if (playerInput == -1) {
+	        if (isPlayerQuitting(playerInput)) {
 	            currentGameState = GameState.QUIT;
 	            break;
             }
 
-            Player currentPlayer = determineCurrentPlayer(currentGameState);
-            PlayerMove playerMove = new PlayerMove(currentPlayer, playerInput);
+            PlayerMove playerMove = createPlayerMove(currentGameState, playerInput);
 
-            if (!boardController.isPlayerMoveValidOnBoard(playerMove)) {
+            if (isPlayerMoveInvalid(playerMove)) {
                 outputter.showErrorPlayerSelectedEmptyHouse();
                 continue;
             }
 
             GameState nextGameState = boardController.processValidPlayerMove(playerMove);
-            Player nextPlayer = determineCurrentPlayer(nextGameState);
 
+            Player nextPlayer = determineCurrentPlayer(nextGameState);
             if (isGameFinished(nextPlayer)) {
                 currentGameState = GameState.FINISHED;
                 break;
@@ -68,6 +69,19 @@ public class Kalah {
                 break;
         }
 	}
+
+    private PlayerMove createPlayerMove(GameState currentGameState, int playerInput) {
+        Player currentPlayer = determineCurrentPlayer(currentGameState);
+        return new PlayerMove(currentPlayer, playerInput);
+    }
+
+    private boolean isPlayerQuitting(int playerInput) {
+        return playerInput == -1;
+    }
+
+    private boolean isPlayerMoveInvalid(PlayerMove playerMove) {
+        return !boardController.isPlayerMoveValidOnBoard(playerMove);
+    }
 
     private boolean isGameFinished(Player nextPlayer) {
         return boardController.isPlayerHousesAllEmpty(nextPlayer);

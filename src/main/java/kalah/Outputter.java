@@ -11,11 +11,11 @@ public class Outputter {
         this.io = io;
     }
 
-    public void showErrorPlayerSelectedEmptyHouse() {
+    protected void showErrorPlayerSelectedEmptyHouse() {
         io.println("House is empty. Move again.");
     }
 
-    public void showFinalScoreAndWinner(BoardState finalBoardState) {
+    protected void showFinalScoreAndWinner(BoardState finalBoardState) {
         int[] numSeedsInPlayerOnePits = finalBoardState.playerOnePits;
         int[] numSeedsInPlayerTwoPits = finalBoardState.playerTwoPits;
 
@@ -37,12 +37,12 @@ public class Outputter {
         io.println(winnerString);
     }
 
-    public void showGameOver(BoardState finalBoardState) {
+    protected void showGameOver(BoardState finalBoardState) {
         io.println("Game over");
         showCurrentBoardState(finalBoardState);
     }
 
-    public void showCurrentBoardState(BoardState currentBoardState) {
+    protected void showCurrentBoardState(BoardState currentBoardState) {
         int[] numSeedsInPlayerOnePits = currentBoardState.playerOnePits;
         int[] numSeedsInPlayerTwoPits = currentBoardState.playerTwoPits;
 
