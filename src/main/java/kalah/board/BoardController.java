@@ -4,6 +4,8 @@ import kalah.GameState;
 import kalah.player.Player;
 import kalah.player.PlayerMove;
 
+import java.util.Arrays;
+
 public class BoardController {
 
     private Board board;
@@ -79,7 +81,9 @@ public class BoardController {
         BoardState currentBoardState = board.getCurrentBoardState();
         int[] playerPits = choosePlayerPits(currentBoardState, player);
 
-        for (int seeds : playerPits) {
+        int[] playerHouses = Arrays.copyOfRange(playerPits, 0, playerPits.length - 1);
+
+        for (int seeds : playerHouses) {
             if (seeds > 0) {
                 return false;
             }
