@@ -100,6 +100,7 @@ public class Board {
             if (!isPitBelongedToPlayer(currentPitToSowSeed, playerMove.player)
                     && currentPitToSowSeed.getPitType() == Pit.PitType.STORE) {
                 currentPitToSowSeed = currentPitToSowSeed.getNextPit();
+                pitOfLastSownSeed = pitOfLastSownSeed.getNextPit();
                 continue;
             }
             currentPitToSowSeed.incrementSeeds();
