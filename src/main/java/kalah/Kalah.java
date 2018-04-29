@@ -4,6 +4,7 @@ import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
 import kalah.board.Board;
 import kalah.board.BoardController;
+import kalah.board.BoardControllerConcrete;
 import kalah.player.Player;
 import kalah.player.PlayerMove;
 
@@ -115,6 +116,6 @@ public class Kalah {
         currentGameState = GameState.PLAYER_ONE_TURN;
         board = new Board(NUM_HOUSES_PER_PLAYER, NUM_SEEDS_PER_HOUSE_INITIAL);
         outputter = new Outputter(io);
-        boardController = new BoardController(board);
+        boardController = new BoardControllerConcrete(board);
     }
 }
